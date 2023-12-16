@@ -4,6 +4,7 @@ import SearchAppBar from "./components/appBar";
 import ActionAreaCard from "./components/productCard";
 import axios from "axios";
 import { CircularProgress } from "@mui/material";
+import { Link } from "react-router-dom";
 
 function App() {
   const [selectedCategory, setSelectedCategory] = useState("All");
@@ -26,7 +27,8 @@ function App() {
 
   return (
     <main>
-      <SearchAppBar />
+      <SearchAppBar allProducts={allProducts} setProducts={setProducts} />
+
       <section className="products">
         <h2>Products</h2>
         <div className="categories">
