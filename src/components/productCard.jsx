@@ -3,7 +3,8 @@ import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
 import Typography from "@mui/material/Typography";
-import { CardActionArea } from "@mui/material";
+import { Button, CardActionArea } from "@mui/material";
+import { Link } from "react-router-dom";
 
 export default function ActionAreaCard({
   title,
@@ -11,6 +12,8 @@ export default function ActionAreaCard({
   image,
   price,
   discount,
+  id,
+  setPanier,
 }) {
   const discountPrice = price - (price * discount) / 100;
   return (
@@ -34,6 +37,25 @@ export default function ActionAreaCard({
             <p>{discountPrice.toFixed(2)} $</p>
           </Typography>
           <div className="discount">{discount} %</div>
+          <Link to={"product/" + id}>
+            <Button size="small">Learn More</Button>
+          </Link>
+          <Button
+            onClick={() => {
+              setPanier((ancientPanier) => {
+                return [
+                  ...ancientPanier,
+                  {
+                    title,
+                    price,
+                  },
+                ];
+              });
+            }}
+            size="small"
+          >
+            Add To Cart
+          </Button>
         </CardContent>
       </CardActionArea>
     </Card>

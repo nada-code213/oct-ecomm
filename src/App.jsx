@@ -4,13 +4,15 @@ import SearchAppBar from "./components/appBar";
 import ActionAreaCard from "./components/productCard";
 import axios from "axios";
 import { CircularProgress } from "@mui/material";
-import { Link } from "react-router-dom";
+import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 
 function App() {
   const [selectedCategory, setSelectedCategory] = useState("All");
   const [loading, setLoading] = useState(true);
   const [products, setProducts] = useState([]);
+  const [modalVisible, setModalVisible] = useState(false);
   const [allProducts, setAllProducts] = useState([]);
+  const [panier, setPanier] = useState([]);
   useEffect(() => {
     axios
       .get("https://dummyjson.com/products")
@@ -28,7 +30,6 @@ function App() {
   return (
     <main>
       <SearchAppBar allProducts={allProducts} setProducts={setProducts} />
-
       <section className="products">
         <h2>Products</h2>
         <div className="categories">
@@ -116,12 +117,34 @@ function App() {
                   description={e.description}
                   price={e.price}
                   discount={e.discountPercentage}
+                  id={e.id}
+                  setPanier={setPanier}
                 />
               );
             })
           )}
         </div>
       </section>
+      <div
+        className="add-button"
+        onClick={() => {
+          setModalVisible(!modalVisible);
+        }}
+      >
+        <ShoppingCartIcon />
+      </div>
+      {modalVisible && (
+        <div className="cart-modal">
+          {panier.map((e) => {
+            return (
+              <div key={e.title} className="modal-item">
+                <h4>{e.title}</h4>
+                <h4>{e.price} $</h4>
+              </div>
+            );
+          })}
+        </div>
+      )}
     </main>
   );
 }
