@@ -5,6 +5,7 @@ import CardMedia from "@mui/material/CardMedia";
 import Typography from "@mui/material/Typography";
 import { Button, CardActionArea } from "@mui/material";
 import { Link } from "react-router-dom";
+import { toast } from "react-toastify";
 
 export default function ActionAreaCard({
   title,
@@ -43,13 +44,31 @@ export default function ActionAreaCard({
           <Button
             onClick={() => {
               setPanier((ancientPanier) => {
-                return [
-                  ...ancientPanier,
-                  {
-                    title,
-                    price,
-                  },
-                ];
+                let existingProducts = ancientPanier.filter(
+                  (e) => e.title === title
+                );
+                if (existingProducts.length === 0) {
+                  return [
+                    ...ancientPanier,
+                    {
+                      title,
+                      price,
+                      quantity: 1,
+                    },
+                  ];
+                } else {
+                  toast.error("Already in cart", {
+                    position: "top-right",
+                    autoClose: 5000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                    theme: "light",
+                  });
+                  return [...ancientPanier];
+                }
               });
             }}
             size="small"

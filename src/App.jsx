@@ -5,6 +5,9 @@ import ActionAreaCard from "./components/productCard";
 import axios from "axios";
 import { CircularProgress } from "@mui/material";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import DeleteIcon from "@mui/icons-material/Delete";
 
 function App() {
   const [selectedCategory, setSelectedCategory] = useState("All");
@@ -135,16 +138,54 @@ function App() {
       </div>
       {modalVisible && (
         <div className="cart-modal">
-          {panier.map((e) => {
+          {panier.map((e, i) => {
             return (
               <div key={e.title} className="modal-item">
                 <h4>{e.title}</h4>
-                <h4>{e.price} $</h4>
+                <div className="quantity">
+                  <input
+                    onClick={() => {
+                      let temp = [...panier];
+                      if (temp[i].quantity > 1) {
+                        temp[i].quantity--;
+                      }
+                      setPanier([...temp]);
+                    }}
+                    type="button"
+                    value="-"
+                  />
+                  <p>{e.quantity} </p>
+                  <input
+                    type="button"
+                    value="+"
+                    onClick={() => {
+                      let temp = [...panier];
+                      temp[i].quantity++;
+                      setPanier([...temp]);
+                    }}
+                  />
+                </div>
+                <h4>{e.price * e.quantity} $</h4>
+                <div
+                  onClick={() => {
+                    setPanier(panier.filter((p) => p.title !== e.title));
+                  }}
+                >
+                  <DeleteIcon />
+                </div>
               </div>
             );
           })}
+          <div className="total">
+            {panier.reduce(
+              (acc, current) => acc + current.price * current.quantity,
+              0
+            )}{" "}
+            $
+          </div>
         </div>
       )}
+      <ToastContainer />
     </main>
   );
 }

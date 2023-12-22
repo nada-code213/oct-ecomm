@@ -120,4 +120,23 @@ img {
 .modal-item {
   display: flex;
   justify-content: space-between;
+  margin-bottom: 8px;
+}
+.quantity input {
+  height: 24px;
+  width: 24px;
+  border-radius: 50%;
+  background-color: #fa626f;
+  color: white;
+  border: none;
+  cursor: pointer;
+}
+.quantity {
+  display: flex;
+  gap: 16px;
+}
+.total {
+  position: absolute;
+  bottom: 16px;
+  right: 16px;
 }
